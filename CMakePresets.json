@@ -1,0 +1,137 @@
+{
+	"version": 4,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 23
+	},
+	"configurePresets": [
+		{
+			"name": "W-base-MSVC-Ninja",
+			"description": "Compiler cl.exe generator Ninja on Windows",
+			"hidden": true,
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/out/build/${presetName}",
+			"installDir": "${sourceDir}/out/install/${presetName}",
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "cl.exe",
+				"CMAKE_CXX_COMPILER": "cl.exe",
+                "SK_PLATFORM": "Windows"
+			},
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Windows"
+			}
+		},
+		{
+			"name": "Windows-x64-Debug",
+			"displayName": "x64 Debug MSVC Ninja",
+			"inherits": "W-base-MSVC-Ninja",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug"
+			}
+		},
+		{
+			"name": "Windows-x64-Release",
+			"displayName": "x64 Release MSVC Ninja",
+			"inherits": "Windows-x64-Debug",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release"
+			}
+		},
+		{
+			"name": "L-base-GCC-Ninja",
+			"description": "compiler GCC generator Ninja on Linux",
+			"hidden": true,
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/out/build/${presetName}",
+			"installDir": "${sourceDir}/out/install/${presetName}",
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "gcc",
+				"CMAKE_CXX_COMPILER": "g++",
+                "SK_PLATFORM": "Linux"
+			},
+			"condition": {
+				"type": "equals",
+				"lhs": "${hostSystemName}",
+				"rhs": "Linux"
+			}
+		},
+		{
+			"name": "Linux-x64-Debug",
+			"displayName": "x64 Debug GCC Ninja",
+			"inherits": "L-base-GCC-Ninja",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug"
+			}
+		},
+		{
+			"name": "Linux-x64-Release",
+			"displayName": "x64 Release GCC Ninja",
+			"inherits": "Linux-x64-Debug",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release"
+			}
+		}
+	],
+	"buildPresets": [
+		{
+			"name": "Windows-x64-Clean-Debug",
+			"displayName": "Clean Build Debug",
+            "configuration": "Debug",
+            "cleanFirst": true,
+			"targets": ["all"],
+			"configurePreset": "Windows-x64-Debug"
+		},
+		{
+			"name": "Windows-x64-Clean-Release",
+			"displayName": "Clean Build Release",
+			"inherits": "Windows-x64-Clean-Debug",
+            "configuration": "Release",
+			"configurePreset": "Windows-x64-Release"
+		},
+        {
+            "name": "Windows-x64-Debug",
+            "displayName": "Build Debug",
+            "inherits": "Windows-x64-Clean-Debug",
+            "cleanFirst": false,
+            "configurePreset": "Windows-x64-Debug"
+        },
+        {
+            "name": "Windows-x64-Release",
+            "displayName": "Build Release",
+            "inherits": "Windows-x64-Clean-Release",
+            "cleanFirst": false,
+            "configurePreset": "Windows-x64-Release"
+        },
+		{
+			"name": "Linux-x64-Clean-Debug",
+			"displayName": "Clean Build Debug",
+            "configuration": "Debug",
+            "cleanFirst": true,
+			"targets": ["all"],
+			"configurePreset": "Linux-x64-Debug"
+		},
+		{
+			"name": "Linux-x64-Clean-Release",
+			"displayName": "Clean Build Release",
+			"inherits": "Linux-x64-Clean-Debug",
+            "configuration": "Release",
+			"configurePreset": "Linux-x64-Release"
+		},
+        {
+            "name": "Linux-x64-Debug",
+            "displayName": "Build Debug",
+            "inherits": "Linux-x64-Clean-Debug",
+            "cleanFirst": false,
+            "configurePreset": "Linux-x64-Debug"
+        },
+        {
+            "name": "Linux-x64-Release",
+            "displayName": "Build Release",
+            "inherits": "Linux-x64-Clean-Release",
+            "cleanFirst": false,
+            "configurePreset": "Linux-x64-Release"
+        }
+	]
+}
